@@ -229,3 +229,8 @@ componentDidMount() {
 ```
 state内の値はそれぞれ独立して更新できる。
 マージは浅く(shallow)行われるので、`this.setState({comments})`は、`posts`をそのまま残すが、`comments`を完全に置き換える。
+
+## データは下方向に伝わる
+```js
+<FormattedDate date={this.state.date} />
+```
