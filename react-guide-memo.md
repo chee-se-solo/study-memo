@@ -229,3 +229,34 @@ componentDidMount() {
 ```
 state内の値はそれぞれ独立して更新できる。
 マージは浅く(shallow)行われるので、`this.setState({comments})`は、`posts`をそのまま残すが、`comments`を完全に置き換える。
+
+## データは下方向に伝わる
+親コンポーネントであれ子コンポーネントであれ、特定のほかのコンポーネントがステートフルかステートレスか知ることはできないし、特定のコンポーネントの定義が関数型かクラス型かを気にするべきではない。
+```js
+<FormattedDate date={this.state.date} />
+```
+```js
+function FormattedDate(props) {
+  return <h2>It is {props.date.toLocateTimeString()}.</h2>;
+}
+```
+`FormattedDate`コンポーネントはprops経由で`date`を受け取るが、それが`Clock`のstateから来たのか、`Clock`のpropsから来たのか、もしくは手書きされたものなのかは分からない。
+データフローは一般的には”トップダウン”もしくは”単一方向”データフローと呼ばれる。stateは特定のコンポーネントが所有し、"下"にいるコンポーネントにのみ影響する。  
+コンポーネントがステートフルかステートレスかは、コンポーネントの内部実装とみなされる。ステートレスなコンポーネントをステートフルなコンポーネントの中で使うことが可能であり、その逆も同様。
+
+# イベント処理
+```js
+function ActionLink() {
+  function handleCheck(e) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+  }
+  
+  return (
+    <a href="#" onClick={handleClick}>
+      Click me
+    </a>
+  );
+}
+```
+イベントハンドラとして文字列ではなく関数を渡す。`false`を返してもデフォルトの動作を抑止することができない。`preventDefault`を呼び出す必要がある。`e`は合成(synthetic)イベントであり、これらの合成イベントはW3Cの使用に則って定義されているので、ブラウザ間の互換性を心配する必要はない。Reactのイベントとまったく同様に動作するわけではない。
