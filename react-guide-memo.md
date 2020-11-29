@@ -337,5 +337,5 @@ class LoggingButton extends React.Component {
 <button onClick={(e) => this.deleteRow(id, e)}> Delete Row</button>
 <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
 ```
-上記の2行は透過であり、上側ではアロー関数が、下側ではFuntion.prototype.bindが使われている。
-どちらの場合でも、第一引数がid, 第二引数がReactイベントになる。アロー関数ではeを明示的に渡す必要がありますが、bindの場合にはid以降の追加の引数は自動的に転送されます。
+上記の2行は等価であり、上側ではアロー関数が、下側ではFuntion.prototype.bindが使われている。
+どちらの場合でも、第一引数がid, 第二引数がReactイベントになる。アロー関数ではeを明示的に渡す必要があるが、bindの場合にはid以降の追加の引数は自動的に転送される。
