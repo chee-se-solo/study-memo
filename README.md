@@ -14,6 +14,9 @@ my tech study memo. (Almost about books I read, sometimes simple memo about know
 
 <https://www.amazon.co.jp/dp/4798129712>
 
+## readable code (fin)
+<https://www.amazon.co.jp/dp/4873115655>
+
 ## my-practice
 
 my practice and experience.
