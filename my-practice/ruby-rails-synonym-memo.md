@@ -46,7 +46,7 @@ decorate(*decoset) # @@@ hello @@@
 
 見たまま。展開できる。
 
-## try と &.
+## try と &. の違い
 
 ```ruby
 Class.name     # Class

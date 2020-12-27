@@ -43,7 +43,7 @@ COPY コマンドと同じことができる上位互換コマンド。何をし
 
 ### ENV
 
-環境変数の設定。
+環境変数の設定。複数の環境変数を一つの ENV で指定することもできる。
 
 ### CMD
 
@@ -57,8 +57,8 @@ Docker コンテナを立ち上げたときの実行プロセス。entrypoint.sh
 
 これを見れば大体わかる。
 
-- https://qiita.com/zembutsu/items/9e9d80e05e36e882caaa
-- https://docs.docker.com/compose/compose-file/
+- <https://qiita.com/zembutsu/items/9e9d80e05e36e882caaa>
+- <https://docs.docker.com/compose/compose-file/>
 
 ### version
 
@@ -87,11 +87,15 @@ Dockerfile 名の指定。Dockerfile 以外の名前を使いたいとき。
 
 ### services - (サービス名) - build - context
 
-dockerfile が配置されている階層へのパス。Dockerfile 以外の名前の Dockerfile を使いたいとき。
+Docker ファイル内での context 指定。さっくり説明すると、Dockerfile 内でのホスト側のカレントディレクトリ指定。指定しないと Dockerfile が配置されているディレクトリになる。Dockerfile を docker-compose.yml より下のディレクトリに入れているときなどに役に立つ。
 
 ### services - (サービス名) - environment
 
-環境変数設定。Dockerfile でいうところの ENV
+環境変数設定。Dockerfile でいうところの ENV。シェルの環境変数を Dockerfile に送る。上書きすることもできる。env_file で定義した環境変数も上書きする。
+
+### services- (サービス名) - env_file
+
+環境変数設定。environment の記述を別ファイルに切り出したもの。値の設定もできるが、シェルの環境変数や environment で上書きされる。
 
 ### services - (サービス名) - ports
 
@@ -128,14 +132,36 @@ Dockerfile でいう CMD。
 
 Docker コンテナで実行するプロセス指定と追加引数の関係。
 ここを読めばわかる。
-https://qiita.com/uehaj/items/e6dd013e28593c26372d
+<https://qiita.com/uehaj/items/e6dd013e28593c26372d>
 
 ENTRYPOINT が docker run するときのプロセスで、CMD が追加で指定できる引数。  
 乱暴に説明すれば、ENTRYPOINT がコマンドで CDM が追加引数。ただし、ENTRYPOINT がないときは CMD にコマンドを設定できる。  
-さらに乱暴に言えば、Docker run した際に、[ENTRYPOINT] [CMD] の形で実行されると思っていてもいい。  
+さらに乱暴に言えば、Docker run した際に、[ENTRYPOINT][cmd] の形で実行されると思っていてもいい。  
 ENTRYPOINT と CMD の設定の仕方次第で当てはまらない挙動も普通にあるが、細かい挙動はあまり統一性がない。  
 詳細はこっち。  
-http://docs.docker.jp/v17.06/engine/reference/builder.html#cmd-entrypoint
+<http://docs.docker.jp/v17.06/engine/reference/builder.html#cmd-entrypoint>
 
 ENTRYPOINT にシェルを指定して、exec "$@"の形で終わらせることで、ENTRYPOINT のシェルで特定の処理をさせつつ、最後に CMD のコマンドを実行する。という挙動ができる。
 具体的には entrypoint.sh 内で、pid ファイルなどの動作に関わるファイルを削除し、CMD でサーバーを起動するなど。
+
+## Docker の環境変数の設定
+
+地味にややこしくて困ったので整理しておく。  
+ネットで調べてるとイメージに環境変数を封入とか何とか見つかるが、そんなことしてない。`docker-compose build`で作ったイメージを`docker run`で覗いてみたが環境変数は何もなかった。  
+環境変数はコンテナ作成時に決まる。`docker-compose` でコンテナを作成すると、docker-compose.yml の設定をコンテナ作成時にセットしてくれるだけのようだ。
+
+- 基本的にシェルの環境変数は、コンテナに渡されない。渡したい場合は、`environment`、`env_file`で明示しておく。
+- `environment`、`env_file`では、渡す環境変数の指定だけでなく値の設定もできる。また、Dockerfile 内の`ENV`でも環境変数を設定できる。重複した場合にどれが優先されるか調査した。
+
+### 環境変数の設定強度
+
+```plain text
+envrionment(docker-compose.yml) > env_file(docker-compse.yml) > ENV(Dockerfile) > シェル環境変数
+```
+
+上記の順に上書きされてイメージに封入される。これは docker-compose を使った場合だが、docker を使った場合、yml の代わりに引数の指定が対応すると思われる。
+
+### Dockerfile 内で有効な環境変数
+
+環境変数はコンテナ作成時に決まる。Dockerfile はイメージをビルドするときに使う。では、Dockerfile 内ではシェル環境変数や environment の指定は無効なのか。
+調べてみたところ無効だった。シェル環境変数ならば args で環境変数を展開することで Dockerfile 内で参照するようにできたが、environment や env_file はできなさそうだ。
