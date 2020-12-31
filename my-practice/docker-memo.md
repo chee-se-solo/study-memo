@@ -218,7 +218,7 @@ envrionment(docker-compose.yml) > env_file(docker-compse.yml) > ENV(Dockerfile) 
 ビルド（Dockerfile） -> マウント -> entrypoint（command）
 ```
 
-つまり、entrypoint か command でシェルスクリプトを実行し、その中でインストールすればよい。ビルドが終わった後、つまり entrypoint や command のタイミングではマウントは完了しているので前回のインストール結果をキャッシュとして使うことができる。
+つまり、entrypoint か command でシェルスクリプトを実行し、その中でインストールすればよい。ビルドが終わった後、entrypoint や command のタイミングではマウントは完了しているので前回のインストール結果をキャッシュとして使うことができる。
 
 これで時間は節約できるようになるが、実は一長一短ある。
 
