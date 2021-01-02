@@ -267,9 +267,26 @@ envrionment(docker-compose.yml) > env_file(docker-compse.yml) > ENV(Dockerfile) 
 ここを読めばわかる。  
 <https://matsuand.github.io/docs.docker.jp.onthefly/develop/develop-images/multistage-build/>
 
-一言でいえば、別のイメージから成果物だけぶっこ抜いてくるやり方。FROM を複数書いて、ビルドし終わったバイナリだけ頂戴したり、Dockerhub の公式イメージから目的のものだけ COPY したりする。  
-開発環境と本番環境の Docker ファイルを一つにまとめてterget指定でビルドし分けられるらしいけど、二つのファイルの中身を`cat`コマンドで一つにつなげてみた感がある。複雑なことをしてると縦に長くなりそうだ。分割するのがばかばかしくなるほど単純な作りになっているのでもない限りは素直にファイルを分けてマルチステージすればいいと思う。  
-やっぱり別のイメージの成果物をそっくり持ってこられるのがマルチステージの最大の利点。
+二種類の使い方があり、別のイメージから成果物だけぶっこ抜いてくるやり方と、ステージを３つ以上に分けて継承のようにイメージを分岐させる使い方がある。  
+ぶっこ抜いてくるほうは、FROM を複数書いて、ビルドし終わったバイナリだけ頂戴したり、Dockerhub の公式イメージから目的のものだけ COPY したりする。  
+継承のほうは開発用イメージと本番用イメージの共通部分を base として抽出して、複数のイメージのうち target 指定したほうだけ使う。
+
+```dockerfile
+FROM iamge as base
+
+...any core steps
+
+FROM base as dev
+
+...any steps for dev
+
+FROM base as prod
+
+...any steps for prod
+
+```
+
+ぶっこ抜くやり方はレイヤー数削減に効果があり、継承のほうはコンテナの設定を一ファイルに簡潔にまとめることができる。
 
 ## 今後の方針
 
