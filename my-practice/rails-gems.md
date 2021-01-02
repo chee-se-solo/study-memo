@@ -1,0 +1,123 @@
+# これから先使いそうなGEM
+
+定番とレガシーに分類してキャッチアップ
+
+- rails
+- mysql2
+- puma
+- sass-rails
+- webpacker
+- turbolinks
+- jbuilder
+- bycrypt(*)
+- image_processing(*)
+- bootsnap
+- tzinfo-data
+
+- development & test
+  - byebug
+
+- development
+  - listen
+  - web-consle
+  - rack-mini-profiler
+  - spring
+
+- test
+  - capybara
+  - selenium-webdriver
+  - webdrives
+
+- old default
+  - uglifier
+  - coffee-rails
+  - jquery-rails(*)
+  - mini_racer
+
+- additional
+  - slim-rails
+  - pry(-rails)
+  - capistrano
+  - capistrano-bundler
+  - capistrano-rails
+  - capistrano3-puma
+  - capistrano-rbenv
+  - html2slim
+  - rubocop
+  - debase
+  - ruby-debug-ide
+  - slim_lint
+  - overcommit
+  - ed25519
+  - bycript_pbkdf
+  - device
+  - devise-encryptable
+  - cancancan
+  - record_with_operator
+  - php-serialiation
+  - aws-sdk
+  - aws-sdk-rails
+  - bootstrap-sass
+  - breadcrumbs_on_rails
+  - json
+  - kaminari
+  - composite_primary_keys
+  - google-api-client
+  - webpay
+  - payjp
+  - config
+  - wicked_pdf
+  - wkhtmltopdf-binary
+  - net-ssh
+  - net-scp
+  - sanitaize
+  - activerecord-import
+  - rubyzip
+  - whenever
+  - cocoon
+  - intercom
+  - rack-cors
+  - newrelic_rpm
+  - restforce
+  - font-awesome-rails
+  - momentjs-rails
+  - datetimepicker-rails
+  - simple_form
+  - nested_form
+  - composite_primary_keys
+  - oj
+  - ox
+  - activerecord-import
+  - factory-bot-rails
+  - database-cleaner
+  - simplecov
+  - logger-ltsv
+  - fast_jsonapi
+  - aws-sdk-sns
+  - sws-sdk-ses
+  - rest-client
+  - slack-notifier
+  - google_drive
+  - rails-controller-testing
+  - pre-commit
+  - faker
+  - database_cleaner
+  - request-store
+  - paranoia
+  - select2-rails
+  - omniauht-google-oauth2
+  - prawn
+  - prawn-table
+  - net-sftp
+  - slack-ruby-client
+  - rqrcode
+  - switch_user
+  - rubyzip
+  - exception_notification
+  - phonelib
+  - aws-sdk-s3
+  - daemons
+  - validate_url
+  - chrome-driver-helper
+  - delayed_job_acive_record
+  - exception_notification
