@@ -54,7 +54,7 @@
   <https://qiita.com/morrr/items/0e24251c049180218db4>
 
 - **selenium-webdriver**  
-  ブラウザを自動操作してくれるテストツール？スクレイピングにも使えるらしい。
+  ブラウザを自動操作してくれるテストツール？スクレイピングにも使えるらしい。  
   <https://qiita.com/y-agatsuma/items/ea2c9845ee0a931d5c9>
 
 - **webdrives**  
@@ -73,7 +73,7 @@
   <https://qiita.com/k0kubun/items/b118e9ccaef8707c4d9f>
 
 - **capistrano / capistrano-bundler / capistrano-rails / capistrano3-puma capistrano-rbenv**  
-  デプロイツール。それぞれの環境に最適化したプラグインが用意されている。rbenv 下の ruby に PATH を通すとかいろいろな設定ができるんだろうと思う。
+  デプロイツール。それぞれの環境に最適化したプラグインが用意されている。rbenv 下の ruby に PATH を通すとかいろいろな設定ができるんだろうと思う。  
   <https://qiita.com/tkykmw/items/a34441aae142e0e41b65>  
   上記が capistrano 導入の手順、それぞれのプラグインの役割の両方で参考になりそうだ。
 
@@ -85,7 +85,7 @@
   デバッグ用 gem。debase は何をしているのかよくわからなかったが、デバッグの前提になる gem らしい。ruby-debu-ide は文字通り IDE からデバッグできるようにする gem。
 
 - **devise / devise-encryptable / devise_token_auth**  
-  認証の定番。簡単に導入できる反面、中で何をやっているかわかりにくいと評判。とりあえず導入の仕方を理解すれば、プロジェクトで何をしているかもりかいできるだろう。具体的に何をしているかは後回しでもいい。
+  認証の定番。簡単に導入できる反面、中で何をやっているかわかりにくいと評判。とりあえず導入の仕方を理解すれば、プロジェクトで何をしているかもりかいできるだろう。具体的に何をしているかは後回しでもいい。  
   <https://qiita.com/hakatatech/items/ea0d9236d89fa24a7a1c>  
   <https://qiita.com/Hal_mai/items/350c400e8763ce0487a3>  
   <https://kitsune.blog/rails-devise>
@@ -107,7 +107,7 @@
   <http://vdeep.net/rubyonrails-config-gem>
 
 - **whenever**  
-  cron 設定を ruby で書ける。普通に cron を書けばいいような気もするが、プロジェクトごとの cron 設定をプロジェクトのリポジトリ内で管理できると言われれば確かにありがたいのかもしれない。
+  cron 設定を ruby で書ける。普通に cron を書けばいいような気もするが、プロジェクトごとの cron 設定をプロジェクトのリポジトリ内で管理できると言われれば確かにありがたいのかもしれない。  
   <http://vdeep.net/rubyonrails-config-gem>
 
 - **simple_form**  
@@ -115,61 +115,118 @@
 
 ## 覚えておくとよさそうな Gem
 
+- **ed25519**  
+  ed25519 とは、新しい暗号化方式。rsa の次に来た今最も使われている鍵暗号。それを Rails の暗号化に導入する Gem。Capistrano で ed25519 鍵を使って接続するときにも必要になるらしい。
+
+- **bycript_pbkdf**  
+  ed25519 対応で必要になる Gem の模様。capistrano はこの Gem にも依存しているらしい。
+
 - **record_with_operator**  
   モデルにトレース情報を追加してくれる gem。シンプルなので公式の README が一番わかりやすい。  
   <https://github.com/nay/record_with_operator>
 
 - **breadcrumbs_on_rails**  
-  パンくずを作る。シンプル。
+  パンくずを作る。シンプル。  
   <https://qiita.com/stbtkhr/items/8170a78d085c6413f9c1>
 
 - **activerecord-import**  
-  bulk insert を ActiveRecord に導入する。Rails6 で bulk insert が追加されたのでこの gem もいずれはレガシーになるのかもしれない。
+  bulk insert を ActiveRecord に導入する。Rails6 で bulk insert が追加されたのでこの gem もいずれはレガシーになるのかもしれない。  
   <https://github.com/zdennis/activerecord-import>
 
 - **validates_url**  
-  URL のバリデーションをする Gem。カスタムバリデーションで検査したくなる内容が用意されているようだ。
+  URL のバリデーションをする Gem。カスタムバリデーションで検査したくなる内容が用意されているようだ。  
   <https://github.com/perfectline/validates_url>
 
 - **factory-bot-rails**  
-  かつての FactryGirl。テストデータを定義して量産できる。
+  かつての FactryGirl。テストデータを定義して量産できる。  
   <https://qiita.com/morrr/items/f1d3ac46b029ccddd017>
 
 - **composite_primary_keys**  
   モデルに複合キーを導入する。古いシステムのための gem では。  
   <https://qiita.com/hmuronaka/items/4d7f4bb4cfe1be509bc7>
 
-- **simplecov**
-  カバレッジを表示する gem。
+- **simplecov**  
+  カバレッジを表示する gem。  
   <https://qiita.com/komatsubara/items/02962feb28a9eb7e9123>
 
 > しかし Rails について検索した時の Qiita 率はすごいな
 
-## ナニソレな Gem
+- **cocoon**  
+  ネストされたフォームを作る Gem。一対多のモデルの入力フォームを作るときに効果を発揮するらしい。初めて見たけどかなりスターがついているしメジャーな Gem のようだ。  
+  <https://github.com/nathanvda/cocoon>  
+  <https://freecamp.life/rails-cocoon1/>
+
+- **sanitize**  
+   HTML をサニタイズする Gem。標準で用意されているような気がする。  
+  <https://github.com/rgrove/sanitize>  
+  <https://qiita.com/kogax/items/7bd4f2421e1939d0412e>
+
+## たまに見る Gem
+
+- **overcommit**  
+  precommit などの githooks を設定ファイルで簡潔に記述できる Gem。導入すると生の hooks 系ファイルの内容が複雑化するので好き嫌いが分かれる。
+
+- **aws-sdk / aws-sdk-rails**  
+  AWS で運用するのに便利な Gem。インフラを深堀するときに調べる。深追いしない。
+
+- **google-api-client**
+  Goole 公式の Gem。Google API を使うためのライブラリ。今後も見ることはありそうだけど、必要になったときに Google 側の設定などと合わせて調べればいいと思う。
+  <https://github.com/googleapis/google-api-ruby-client>
+  <https://qiita.com/ts-3156/items/1f84d06e50795a9df4c8>
+
+- **payjp**  
+  クレジットカード決済を導入する Gem。PayJP の API をたたくためのライブラリ。  
+  <https://github.com/payjp/payjp-ruby>  
+  <https://qiita.com/takachan_coding/items/f7e70794b9ca03b559dd>
+
+- **wkhtmltopdf-binary**  
+  HTML を PDF に変換して出力してくれるライブラリ。シェルコマンドでこういうのがあるらしく、Gem でインストールするときはこれを入れるらしい。  
+  <https://github.com/mileszs/wicked_pdf>
+
+- **wicked_pdf**  
+  Ruby からシェルコマンドの wkhtml2pdf を使えるようにしてくれる Gem。上の Gem と組み合わせてシステムから PDF を吐く。  
+  <https://github.com/mileszs/wicked_pdf>  
+  <https://qiita.com/betti/items/8b65146903cce1ff739c>
+
+- **net-ssh**  
+  ruby 上から SSH 接続するためのクライアント。  
+  <https://github.com/net-ssh/net-ssh>
+
+- **net-scp**
+  ruby 上から SCP 接続するためのクライアント。前提 Gem として net-ssh が必要。
+  <https://github.com/net-ssh/net-scp>
+
+- **rubyzip**  
+  ruby で zip ファイルを作る。  
+  <https://github.com/rubyzip/rubyzip>  
+  <https://qiita.com/Wa_takumi/items/c9e7a40fcc7ae35a553e>
+
+## ナニコレな Gem
+
+- **php-serialiation**  
+  PHP の serialize/unserialize メソッドを ruby に実装する Gem。使いたい場面があるのだろうか？
+
+- **json**  
+  JSON の parse/serialize を実装する Gem。デフォルトで全く同じ書き方ができたはずだが、高速化した Gem のようだ。  
+  <https://github.com/flori/json>
+
+- **intercom**
+  顧客管理サービス Intercom の API。Intercom について調べる必要が出たら別トピックにする。たぶんその機会はないだろうけど。  
+  <https://www.intercom.com/>  
+  <https://github.com/intercom/intercom-ruby>
+  <https://developers.intercom.com/building-apps/docs>
+
+## レガシーになった Gem
+
+- **webpay**  
+  その昔の決済サービス。WebPay は PayJP に統合されたのでまさに役目を終えた Gem。
 
 ## 以下、分類しながら整理
 
-- overcommit
-- ed25519
-- bycript_pbkdf
-- php-serialiation
-- aws-sdk
-- aws-sdk-rails
-- json
-- google-api-client
-- webpay
-- payjp
-- wicked_pdf
-- wkhtmltopdf-binary
-- net-ssh
-- net-scp
-- sanitaize
-- rubyzip
-- cocoon
-- intercom
-- rack-cors
+---
+
+- **rack-cors**
 - newrelic_rpm
-- restforce
 - font-awesome-rails
 - momentjs-rails
 - datetimepicker-rails
@@ -178,6 +235,9 @@
 - oj
 - ox
 - database-cleaner
+
+---
+
 - logger-ltsv
 - fast_jsonapi
 - aws-sdk-sns
@@ -188,6 +248,9 @@
 - rails-controller-testing
 - pre-commit
 - faker
+
+---
+
 - database_cleaner
 - request-store
 - paranoia
@@ -198,6 +261,9 @@
 - net-sftp
 - slack-ruby-client
 - rqrcode
+
+---
+
 - switch_user
 - rubyzip
 - exception_notification
@@ -207,6 +273,7 @@
 - chrome-driver-helper
 - delayed_job_acive_record
 - exception_notification
+- restforce
 
 ## 最新版から消えたデフォルト Gem
 
