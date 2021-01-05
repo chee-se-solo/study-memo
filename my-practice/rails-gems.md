@@ -77,11 +77,11 @@
   <https://qiita.com/tkykmw/items/a34441aae142e0e41b65>  
   上記が capistrano 導入の手順、それぞれのプラグインの役割の両方で参考になりそうだ。
 
-- rubocop
+- **rubocop**  
   ruby の lint。自分の.rubocop.yml を持っていればあとは警告を粛々と直せばいいだけ。
 
-- **debase  
-  ruby-debug-ide**  
+- **debase**  
+  ruby-debug-ide\*\*  
   デバッグ用 gem。debase は何をしているのかよくわからなかったが、デバッグの前提になる gem らしい。ruby-debu-ide は文字通り IDE からデバッグできるようにする gem。
 
 - **devise / devise-encryptable / devise_token_auth**  
@@ -156,10 +156,17 @@
   <https://github.com/nathanvda/cocoon>  
   <https://freecamp.life/rails-cocoon1/>
 
+- **nested_form**
+  ネストされたフォームを作る Gem。cocoon と役割がかぶっているような。どっちが使いやすい窯では調べていない。
+
 - **sanitize**  
-   HTML をサニタイズする Gem。標準で用意されているような気がする。  
+   HTML をサニタイズする Gem。標準で用意されているような気がする。より細やかな設定が売りなんだろうか。  
   <https://github.com/rgrove/sanitize>  
   <https://qiita.com/kogax/items/7bd4f2421e1939d0412e>
+
+- **rack-cors**  
+  rack アプリケーションに CORS を実装する Gem らしい。かなりメジャーな Gem のようだし、押さえておく価値はありそう。  
+  <https://github.com/cyu/rack-cors>
 
 ## たまに見る Gem
 
@@ -201,7 +208,44 @@
   <https://github.com/rubyzip/rubyzip>  
   <https://qiita.com/Wa_takumi/items/c9e7a40fcc7ae35a553e>
 
+- **newrelic_rpm**  
+  NewRelic の公式 Gem。パフォーマンス計測サービスらしい。  
+  <https://newrelic.com/jp>  
+  <https://github.com/newrelic/newrelic-ruby-agent>
+
+- **oj**  
+  JSON パーサ。高速さが人気のようだ 。  
+  <https://github.com/ohler55/oj>  
+  <https://thr3a.hatenablog.com/entry/20180517/1526486992>
+
+- **database-cleaner**  
+  データベースのデータを消去する Gem。単体テストで重宝する。  
+  <https://github.com/DatabaseCleaner/database_cleaner>
+
+- **aws-sdk-ses / aws-sdk-sns**  
+  AWS の API を実装する Gem。SES はメール送信サービスのようだ。
+
+- **rest-client**  
+  REST リクエストを簡単に作れる Gem。テストツールか、あるいは外部の API をたたくためのツールのようだ。  
+  <https://github.com/rest-client/rest-client>
+
+- **slack-notifier**
+  Rails から Slack にメッセージを送信する API。例外発生を検知して通知したりできる。
+  <https://github.com/stevenosloan/slack-notifier>
+
+- **pre-commit**  
+  git-hooks の pre-commit でコードの規約チェックをしてくれる Gem。rubocop と overcommit を組み合わせたようなことがシンプルにできるようだ。  
+  <https://github.com/pre-commit/pre-commit>
+
+- **faker**
+  氏名やメールアドレスなどのそれっぽいダミーデータを生成する Gem。確かにこういうのがあると便利だ。
+  <https://github.com/faker-ruby/faker>
+
 ## ナニコレな Gem
+
+- **ox**  
+  XML パーサ。OJ ほどメジャーではないようだ。
+  <https://github.com/ohler55/ox>
 
 - **php-serialiation**  
   PHP の serialize/unserialize メソッドを ruby に実装する Gem。使いたい場面があるのだろうか？
@@ -216,38 +260,35 @@
   <https://github.com/intercom/intercom-ruby>
   <https://developers.intercom.com/building-apps/docs>
 
+- **font-awesome-rails**
+  font-awesome を導入する Gem。
+
+- **momentjs-rails**
+  momentjs を導入する Gem。
+
+- **datetimepicker-rails**  
+  datepicker を導入する Gem。
+
+- **logger-ltsv**  
+  LTSV 形式のロガー。Label Tab Separated Value かな。ログをタブ区切りにして、情報にラベルを張るらしい。つまりパースしやすい形式で記述してツールにとっての可読性を上げようというお話のようだ。
+
+- **rails-controller-testing**  
+  テスト用の GEM  
+  <https://github.com/rails/rails-controller-testing>
+
 ## レガシーになった Gem
 
 - **webpay**  
   その昔の決済サービス。WebPay は PayJP に統合されたのでまさに役目を終えた Gem。
 
+- **fast_jsonapi**  
+  名前の通り。具体的な使い方は調べていないが、メンテナンスされていないようだ。
+
+- **google_drive**  
+  Rails から Google Drive API をたたくと連携する Gem。メンテナンスされていないようだ。  
+  <https://github.com/gimite/google-drive-ruby>
+
 ## 以下、分類しながら整理
-
----
-
-- **rack-cors**
-- newrelic_rpm
-- font-awesome-rails
-- momentjs-rails
-- datetimepicker-rails
-- nested_form
-- composite_primary_keys
-- oj
-- ox
-- database-cleaner
-
----
-
-- logger-ltsv
-- fast_jsonapi
-- aws-sdk-sns
-- sws-sdk-ses
-- rest-client
-- slack-notifier
-- google_drive
-- rails-controller-testing
-- pre-commit
-- faker
 
 ---
 
