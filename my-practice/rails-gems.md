@@ -1,6 +1,7 @@
 # これから先使いそうな GEM
 
-定番とレガシーに分類してキャッチアップ
+定番とレガシーに分類してキャッチアップ。基本的に github のスターが少ない GEM は純粋にマイナーか、github が流行りだす前から存在したレガシーに片足突っ込んだかつてのスタンダードのようだ。  
+全部が全部そうでもなく、現役の GEM もあるだろうけれど、スター１０００の境界がある程度の目安になるかもしれない。
 
 ## デフォルト gem
 
@@ -173,7 +174,7 @@
 - **overcommit**  
   precommit などの githooks を設定ファイルで簡潔に記述できる Gem。導入すると生の hooks 系ファイルの内容が複雑化するので好き嫌いが分かれる。
 
-- **aws-sdk / aws-sdk-rails**  
+- **aws-sdk / aws-sdk-rails / aws-sdk-s3**  
   AWS で運用するのに便利な Gem。インフラを深堀するときに調べる。深追いしない。
 
 - **google-api-client**
@@ -229,22 +230,47 @@
   REST リクエストを簡単に作れる Gem。テストツールか、あるいは外部の API をたたくためのツールのようだ。  
   <https://github.com/rest-client/rest-client>
 
-- **slack-notifier**
-  Rails から Slack にメッセージを送信する API。例外発生を検知して通知したりできる。
+- **slack-notifier**  
+  Rails から Slack にメッセージを送信する API。例外発生を検知して通知したりできる。  
   <https://github.com/stevenosloan/slack-notifier>
 
 - **pre-commit**  
   git-hooks の pre-commit でコードの規約チェックをしてくれる Gem。rubocop と overcommit を組み合わせたようなことがシンプルにできるようだ。  
   <https://github.com/pre-commit/pre-commit>
 
-- **faker**
-  氏名やメールアドレスなどのそれっぽいダミーデータを生成する Gem。確かにこういうのがあると便利だ。
+- **faker**  
+  氏名やメールアドレスなどのそれっぽいダミーデータを生成する Gem。確かにこういうのがあると便利だ。  
   <https://github.com/faker-ruby/faker>
+
+- **request-store**  
+  リクエストごとにリセットされるグローバル変数。ビジネスロジックで使うなら session で足りる気がする。flash スコープ的な使い方が便利なんだろうか。  
+  <http://nekorails.hatenablog.com/entry/2018/10/19/202853>  
+  <https://github.com/steveklabnik/request_store>
+
+- **paranoia**  
+  論理削除を ActiveRecord に仕込む Gem。これ使うくらいならめんどくさくても自分で制御したほうがわかりやすいとかいわれた懐かしい記憶。  
+  <https://github.com/rubysherpas/paranoia>
+
+- **omniauth-google-oauth2**  
+  この GEM ももうレガシーだろうなと思ったら意外と新しい紹介記事がある。まだ現役だったのか。  
+  <https://github.com/zquestz/omniauth-google-oauth2>
+
+- **prawn / prawn-table**  
+  PDF を作成する GEM。HTML が組めるなら wicked-PDF でいいと思う。  
+  <https://github.com/prawnpdf/prawn>
+
+- **rqcode**  
+  QR コードを生成する GEM。使う機会が来たら思い出す程度でよさそう。  
+  <https://github.com/whomwah/rqrcode>
+
+- **exception_notitification**  
+  例外発生時にメールを送信させるのに便利らしい。まだ使えそうだが、メンテナンスは止まっているように見えるので時期にレガシー化するのかもしれない。  
+  <https://github.com/smartinez87/exception_notification>
 
 ## ナニコレな Gem
 
 - **ox**  
-  XML パーサ。OJ ほどメジャーではないようだ。
+  XML パーサ。OJ ほどメジャーではないようだ。  
   <https://github.com/ohler55/ox>
 
 - **php-serialiation**  
@@ -254,13 +280,13 @@
   JSON の parse/serialize を実装する Gem。デフォルトで全く同じ書き方ができたはずだが、高速化した Gem のようだ。  
   <https://github.com/flori/json>
 
-- **intercom**
+- **intercom**  
   顧客管理サービス Intercom の API。Intercom について調べる必要が出たら別トピックにする。たぶんその機会はないだろうけど。  
   <https://www.intercom.com/>  
-  <https://github.com/intercom/intercom-ruby>
+  <https://github.com/intercom/intercom-ruby>  
   <https://developers.intercom.com/building-apps/docs>
 
-- **font-awesome-rails**
+- **font-awesome-rails**  
   font-awesome を導入する Gem。
 
 - **momentjs-rails**
@@ -276,6 +302,42 @@
   テスト用の GEM  
   <https://github.com/rails/rails-controller-testing>
 
+- **select2-rails**  
+  副背う選択できるセレクトボックスコンポーネント。選択するとタグになるタイプのセレクトボックスを作成できる。  
+  <https://remonote.jp/rails-multiselect-select2-jquery>  
+  <https://github.com/argerim/select2-rails>
+
+- **net-sftp**  
+  SFTP を ruby から使えるようにする GEM。  
+  <https://github.com/net-ssh/net-sftp>
+
+- **slack-ruby-client**  
+  slack-notifier とは違うのか？
+  <https://github.com/slack-ruby/slack-ruby-client>
+
+- **switch_user**  
+  ログイン/ログアウトなしで目的のユーザーとしてログインできる開発用 GEM、だろうか。
+
+- **phonelib**  
+  電話番号バリデータ。電話番号の国際対応に便利なようだ。  
+  <https://github.com/daddyz/phonelib>  
+  <https://blog.beaglesoft.net/entry/2019/06/04/094516>  
+  <https://qiita.com/Daniel_Nakano/items/75b653fc398d78570e41>
+
+- daemons  
+  ruby スクリプトをデーモン化して起動しっぱなしにする GEM。何がうれしいのかよくわからなかった。  
+  <https://github.com/thuehlinger/daemons>  
+  <https://www.xmisao.com/2013/09/28/bestgems-pickup-daemons.html>
+
+- **delayed_job_acive_record**  
+  Active Record で非同期処理を実装してくれるらしい。  
+  <https://github.com/collectiveidea/delayed_job_active_record>  
+  <https://qiita.com/azusanakano/items/1d2629763f35b5466286>
+
+- **restforce**
+  salesforce の GEM。使うことがあったら調べればよさそう。
+  <https://github.com/restforce/restforce>
+
 ## レガシーになった Gem
 
 - **webpay**  
@@ -288,33 +350,11 @@
   Rails から Google Drive API をたたくと連携する Gem。メンテナンスされていないようだ。  
   <https://github.com/gimite/google-drive-ruby>
 
-## 以下、分類しながら整理
+- bootstrap-sass
+  最新の bootstrap に対応していない。いまなら bootstrap-rubygem という gem になるらしい。そして Rails6 では webpacker で導入するのが正道になりそうだ。
 
----
-
-- database_cleaner
-- request-store
-- paranoia
-- select2-rails
-- omniauht-google-oauth2
-- prawn
-- prawn-table
-- net-sftp
-- slack-ruby-client
-- rqrcode
-
----
-
-- switch_user
-- rubyzip
-- exception_notification
-- phonelib
-- aws-sdk-s3
-- daemons
-- chrome-driver-helper
-- delayed_job_acive_record
-- exception_notification
-- restforce
+- **chrome-driver-helper**
+  サポートが終了した GEM。Chrome で開発するときに便利だったのだろう。今なら webdriver を使うらしい。
 
 ## 最新版から消えたデフォルト Gem
 
@@ -329,8 +369,3 @@
 
 - mini_racer
   ruby から JavaScript を実行する gem。これも Webpacker 導入=node 導入でパージされた。
-
-## レガシーな gem
-
-- bootstrap-sass
-  最新の bootstrap に対応していない。いまなら bootstrap-rubygem という gem になるらしい。そして Rails6 では webpacker で導入するのが正道になりそうだ。
