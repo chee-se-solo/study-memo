@@ -63,6 +63,9 @@
 
 ## 使えるようになっておきたい定番 Gem
 
+- **rspec**  
+  テストの定番。
+
 - **slim-rails / slim_lint**  
   erb に代わるテンプレート。記述量が少なくてすっきりする。使い方自体は簡単そうなので、調査というより実践で理解する。
 
@@ -138,7 +141,7 @@
   URL のバリデーションをする Gem。カスタムバリデーションで検査したくなる内容が用意されているようだ。  
   <https://github.com/perfectline/validates_url>
 
-- **factory-bot-rails**  
+- **factory_bot_rails**  
   かつての FactryGirl。テストデータを定義して量産できる。  
   <https://qiita.com/morrr/items/f1d3ac46b029ccddd017>
 
@@ -146,9 +149,21 @@
   モデルに複合キーを導入する。古いシステムのための gem では。  
   <https://qiita.com/hmuronaka/items/4d7f4bb4cfe1be509bc7>
 
+- **shoulda-matchers**  
+  RSpec にマッチャーを追加してテストしやすくする。  
+  <https://github.com/thoughtbot/shoulda-matchers>
+
 - **simplecov**  
   カバレッジを表示する gem。  
   <https://qiita.com/komatsubara/items/02962feb28a9eb7e9123>
+
+- **rails_best_practices**  
+  rails-bestpractices.com に反する記述を検出する。  
+  <https://github.com/flyerhzm/rails_best_practices>
+
+- **brakeman**  
+  セキュリティの観点からコードチェックする。  
+  <https://github.com/presidentbeef/brakeman>
 
 > しかし Rails について検索した時の Qiita 率はすごいな
 
@@ -324,7 +339,7 @@
   <https://blog.beaglesoft.net/entry/2019/06/04/094516>  
   <https://qiita.com/Daniel_Nakano/items/75b653fc398d78570e41>
 
-- daemons  
+- **daemons**  
   ruby スクリプトをデーモン化して起動しっぱなしにする GEM。何がうれしいのかよくわからなかった。  
   <https://github.com/thuehlinger/daemons>  
   <https://www.xmisao.com/2013/09/28/bestgems-pickup-daemons.html>
@@ -334,26 +349,26 @@
   <https://github.com/collectiveidea/delayed_job_active_record>  
   <https://qiita.com/azusanakano/items/1d2629763f35b5466286>
 
-- **restforce**
-  salesforce の GEM。使うことがあったら調べればよさそう。
+- **restforce**  
+  salesforce の GEM。使うことがあったら調べればよさそう。  
   <https://github.com/restforce/restforce>
 
 ## レガシーになった Gem
 
-- **webpay**  
+- webpay  
   その昔の決済サービス。WebPay は PayJP に統合されたのでまさに役目を終えた Gem。
 
-- **fast_jsonapi**  
+- fast_jsonapi  
   名前の通り。具体的な使い方は調べていないが、メンテナンスされていないようだ。
 
-- **google_drive**  
+- google_drive  
   Rails から Google Drive API をたたくと連携する Gem。メンテナンスされていないようだ。  
   <https://github.com/gimite/google-drive-ruby>
 
 - bootstrap-sass
   最新の bootstrap に対応していない。いまなら bootstrap-rubygem という gem になるらしい。そして Rails6 では webpacker で導入するのが正道になりそうだ。
 
-- **chrome-driver-helper**
+- chrome-driver-helper  
   サポートが終了した GEM。Chrome で開発するときに便利だったのだろう。今なら webdriver を使うらしい。
 
 ## 最新版から消えたデフォルト Gem
@@ -367,5 +382,5 @@
 - jquery-rails(\*)  
   jquery が全盛の時代のころはデフォルトだったらしい。
 
-- mini_racer
+- mini_racer  
   ruby から JavaScript を実行する gem。これも Webpacker 導入=node 導入でパージされた。
