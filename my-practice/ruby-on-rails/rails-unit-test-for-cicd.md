@@ -57,6 +57,12 @@ RSpec.configure do |config|
 end
 ```
 
+```ruby
+# application.rb
+      # 自動生成されるテストファイルを変更
+      g.test_framework :rspec
+```
+
 ### siplecov 設定
 
 ```ruby
