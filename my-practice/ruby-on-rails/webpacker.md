@@ -18,7 +18,7 @@ webpack に関する知識０では使えず、webpack を使える人間にと�
 
 ### 設定ファイル
 
-- config/webpack.yml
+- config/webpack.yml  
   yml で設定できる。
 
 - config/webpack/enviroment.js  
@@ -36,7 +36,7 @@ webpack に関する知識０では使えず、webpack を使える人間にと�
   個別に分割した css ファイル。`stylesheet_packs_with_cunks_tag`で読みだす。
 
 - app/javascript/images  
-  画像ファイルなど性的ファイル。ビューからは src 属性に`asset_pack_path`ヘルパを使ってアクセスする。
+  画像ファイルなど性的ファイル。ビューからは src 属性に`asset_pack_path`ヘルパを使ってアクセスする。`image_pack_tag`でもよいらしい。
 
 ## TypeScript 導入
 
