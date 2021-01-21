@@ -10,11 +10,57 @@ webpack に関する知識０では使えず、webpack を使える人間にと�
 
 ## webpacker インストール
 
+```shell
+bundle install
+yarn install
+bin/rails webpacker:install
+```
+
+Rails6 なら Gemfile にはデフォルトで入っている。`bundle install`後に webpacker をインストールする。
+
 ## webpack-dev-server 設定
+
+- **host**  
+  Rails から webpack-dev-server へアクセスする際のホスト名
+
+- **public**  
+  ブラウザから dev-server にアクセスする際の公開 URL。80 ポートでない場合はポート番号もここで指定する。
+
+- **hmr**  
+  Hot Module Replacement。JS や CSS を書き換えたときにブラウザをリロードすることなく変更を反映させる。ブラウザと dev-server は websocket を使って常に通信しており、変更を検知すると dev-server は新しいモジュールをブラウザに配布する。この通信のために dev-server は 3035 ポートを使用している。
+
+- **inline**  
+  hmr の有効化に必要な設定。js などのリソースをインラインに展開して websocket 通信で受け取った平文で書き換えるなどしているのだろうか？要調査。
+
+- **disable_host_check**
+  不明。おそらく websocket 通信をするときに、クロスオリジンの通信を許可するヘッダを設定する項目、なのではなかろうか。要調査。
+
+### 起動コマンド
+
+```shell
+bin/webpack-dev-server
+```
 
 ## webpack on Docker 設定
 
-## webpacker の構成
+- host: webpack（webpack-dev-server サービスホスト名）
+- public: 0.0.0.0:3035
+
+また、以下の環境変数を設定する
+
+- WEBPACKER_DEV_SERVER_HOST=0.0.0.0（webpack-dev-server コンテナ）
+- WEBPACKER_DEV_SERVER_HOST=webpack（rails app コンテナ）
+
+HMR は Rails、dev-server、ブラウザの 3 ノードでトライアングルのネットワークを構成する。
+
+- Rails は dev-server に TCP 通信で起動確認をし、起動している場合はコンパイルと委譲する。
+- dev-server はブラウザと通信し、hmr のためにリアルタイム通信を行う。
+- ブラウザは Rails からコンテンツを受け取り、静的リソースなどを dev-server から受け取る。
+
+このため、それぞれのノードからの参照名、使用ポートを把握して適切に割り当てる必要がある。  
+とくに dev-server の hostname はブラウザと Rails で違うので注意。また、dev-server 用のポートを開けるのも忘れてはいけない。  
+また、Docker コンテナ内では、ファイルシステムの違いの都合上、ファイル変更イベントが検知できない。  
+そのためファイル変更の検知方法をデフォルトからポーリング方式に変更する必要がある。
 
 ### 設定ファイル
 
@@ -36,7 +82,7 @@ webpack に関する知識０では使えず、webpack を使える人間にと�
   個別に分割した css ファイル。`stylesheet_packs_with_cunks_tag`で読みだす。
 
 - app/javascript/images  
-  画像ファイルなど性的ファイル。ビューからは src 属性に`asset_pack_path`ヘルパを使ってアクセスする。`image_pack_tag`でもよいらしい。
+  画像ファイルなど静的ファイル。ビューからは src 属性に`asset_pack_path`ヘルパを使ってアクセスする。`image_pack_tag`でもよいらしい。
 
 ## TypeScript 導入
 
