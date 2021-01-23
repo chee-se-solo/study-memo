@@ -1,10 +1,10 @@
 # 小さいトピックの詰め合わせ
 
-- **パーシャルテンプレートではインスタンス変数を使わない**
+## パーシャルテンプレートではインスタンス変数を使わない
 
-  - ✔️ **依存をなくして再利用性を高めるため**
-    ❓ **依存は悪か？**
-    別にパーツを表示するために必要な変数に依存するのだから何も問題ない気もするが、繰り返し表示したくなったり大きめのコンポーネントとして扱いたくなることもあるだろうか。必ず守るべき鉄則というわけではなさそうだが、大した手間でもないし将来の使い方なんてわかったものじゃないから守っておいた方が無難か。
+- ✔️ **依存をなくして再利用性を高める**
+  ❓ **依存は悪か？**
+  別にパーツを表示するために必要な変数に依存するのだから何も問題ない気もするが、繰り返し表示したくなったり大きめのコンポーネントとして扱いたくなることもあるだろうか。必ず守るべき鉄則というわけではなさそうだが、大した手間でもないし将来の使い方なんてわかったものじゃないから守っておいた方が無難か。
 
 ## CSP(Content Security Policy)
 
@@ -15,6 +15,45 @@
 
 セキュリティ系のヘッダを追加する設定。
 HTTPS を強制する、JS や CSS などの取得ドメインを限定する、などの制限をかけられる。ポリシーに違反した場合にサーバーに JSON でレポートを送ったりもできる。
+
+## 秘密情報の取り扱い
+
+- config/master.key  
+  credentials や暗号化 Cookie や署名付き Cookie の整合性確認に使用する。
+
+  - 環境変数`RAILS_MASTER_KEY`に設定してもよい。
+
+- credentials.yml.enc  
+  暗号化された yml ファイル。コマンドを通して編集、閲覧する。  
+  編集する際のエディタは環境変数`EDITOR`が使われる。
+
+  ```shell
+  # 閲覧
+  bin/rails credentials:show
+
+  # 編集
+  bin/rails credentials:edit
+  ```
+
+  ```ruby
+  # 読み出し
+  Rails.application.credentials.some_key
+  ```
+
+- Encrypted  
+  credentials を一般化した機能。任意のファイル名の暗号化 yml を任意のキーで作成できる。キーを指定しない場合は`master.key`が流用される。
+
+  ```shell
+  # 閲覧
+  bin/rails encrypted:show config/staging-credentials.yml.enc --key config/staging.key
+  # 編集
+  bin/rails encrypted:edit config/staging-credentials.yml.enc --key config/staging.key
+  ```
+
+  ```ruby
+  # key の指定はいらないのか？Encrypted に関する記述が公式ガイドに見当たらない
+  Rails.application.encrypted("config/staging-credentials.yml.enc").some_key
+  ```
 
 ## I18n（日本語化）
 
