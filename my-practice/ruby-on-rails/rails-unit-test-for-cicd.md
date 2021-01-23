@@ -126,3 +126,5 @@ Service 層を追加している場合は、`type :service`を設定するとよ
 ### simplecov カバレッジ確認
 
 `/coverage`に結果が出力される。`coverage/index.html`にアクセスするとブラウザから結果を確認できる。
+
+# テスト自動化
