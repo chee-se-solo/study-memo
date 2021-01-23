@@ -51,9 +51,9 @@ bin/webpack-dev-server
 - WEBPACKER_DEV_SERVER_HOST=0.0.0.0（webpack-dev-server コンテナ）
 - WEBPACKER_DEV_SERVER_HOST=webpack（rails app コンテナ）
 
-HMR は Rails、dev-server、ブラウザの 3 ノードでトライアングルのネットワークを構成する。
+HMR は Rails、dev-server、ブラウザの 3 ノードでトライアングルで相互に通信する。
 
-- Rails は dev-server に TCP 通信で起動確認をし、起動している場合はコンパイルと委譲する。
+- Rails は dev-server に TCP 通信で起動確認をし、起動している場合はコンパイルと配布を委譲する。
 - dev-server はブラウザと通信し、hmr のためにリアルタイム通信を行う。
 - ブラウザは Rails からコンテンツを受け取り、静的リソースなどを dev-server から受け取る。
 
