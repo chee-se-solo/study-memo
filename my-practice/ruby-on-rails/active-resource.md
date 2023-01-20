@@ -15,6 +15,11 @@ API モードの Rails と NoDB のフロント Rails を用意して ActiveReso
 
 ### API Rails 構築
 
+API モードの Rails をインストールする
+```shell
+bin/rails new . --api -d mysql
+```
+
 Blocked host エラー対策を設定する（cf. DNS リバインディング攻撃）
 
 app/config/environments.rb
