@@ -5,7 +5,9 @@
 
 追記
 おおよそこれらの記事の後追いになった。
+
 https://qiita.com/cigalecigales/items/16ce0a9a7e79b9c3974e
+
 https://nllllll.com/ruby-on-rails/rails-devise/
 
 ## devise インストール
@@ -37,11 +39,11 @@ root to: "home#index"
 
 app/views/layouts/application.html.erb.
 
-'''erb
+```erb
 
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-'''
+```
 
 ### devise ビューを生成
 
@@ -122,8 +124,9 @@ bin/rails db:migrate
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
   end
+```
 
-
+```ruby
 # 自動生成されたモデル
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
