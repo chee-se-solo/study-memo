@@ -16,6 +16,7 @@ API モードの Rails と NoDB のフロント Rails を用意して ActiveReso
 ### API Rails 構築
 
 API モードの Rails をインストールする
+
 ```shell
 bin/rails new . --api -d mysql
 ```
@@ -147,6 +148,64 @@ ActiveResource モデルがカラム情報を一切持っておらず、JSON を
 つまり、モデルを検索せずに表示する画面（/user/new とか） を開くとエラーが起きて表示できない。
 attr_accesor で getter/setter を作ってカラム名を持たせると、JSON をパースして得られた値にアクセスできず`nil`が取得される。
 あとは、timestamp 型が文字列になっているので使用する場合は、自前でその手の変換をかけないといけないのもめんどくさそう。
+
+## アソシエーションを試す
+
+```shell
+bin/rails g scaffold post user:references title:string{50} text:string posted_at:datetime modified_at:datetime
+bin/rails db:migrate
+```
+
+app から post をリクエストしてみたら、紐づく user も一緒に取得できた。が、lazy load のように裏でリクエストが２つ投げられている。
+
+```log
+api_1        | Started GET "/posts.json" for 172.20.0.2 at 2023-01-22 04:55:46 +0900
+api_1        | Processing by PostsController#index as JSON
+api_1        |   Post Load (0.3ms)  SELECT `posts`.* FROM `posts`
+api_1        |   ↳ app/controllers/posts_controller.rb:9:in `index'
+api_1        | Completed 200 OK in 30ms (Views: 7.7ms | ActiveRecord: 3.4ms | Allocations: 3875)
+api_1        |
+api_1        |
+api_1        | Started GET "/users/1.json" for 172.20.0.2 at 2023-01-22 04:55:47 +0900
+api_1        | Processing by UsersController#show as JSON
+api_1        |   Parameters: {"id"=>"1"}
+api_1        |   User Load (0.2ms)  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+api_1        |   ↳ app/controllers/users_controller.rb:44:in `set_user'
+api_1        | Completed 200 OK in 18ms (Views: 0.3ms | ActiveRecord: 2.1ms | Allocations: 3349)
+```
+
+暗黙で N+1 問題を起こしたら N+1 リクエストが起きそう。怖い。
+API 側で対策する必要がある。
+
+```ruby
+  # GET /posts
+  def index
+    @posts = Post.eager_load(:user)
+    render json: @posts, include: :user
+  end
+```
+
+`render`にオプションを渡してレスポンスでリレーションをしっかりと含めてやること。
+
+```log
+api_1        | Started GET "/posts.json" for 172.20.0.2 at 2023-01-22 04:53:09 +0900
+api_1        | Processing by PostsController#index as JSON
+api_1        |   SQL (0.5ms)  SELECT `posts`.`id` AS t0_r0, `posts`.`user_id` AS t0_r1, `posts`.`title` AS t0_r2, `posts`.`text` AS t0_r3, `posts`.`posted_at` AS t0_r4, `posts`.`modified_at` AS t0_r5, `posts`.`created_at` AS t0_r6, `posts`.`updated_at` AS t0_r7, `users`.`id` AS t1_r0, `users`.`last_name` AS t1_r1, `users`.`first_name` AS t1_r2, `users`.`nickname` AS
+t1_r3, `users`.`email` AS t1_r4, `users`.`age` AS t1_r5, `users`.`created_at` AS t1_r6, `users`.`updated_at` AS t1_r7 FROM
+`posts` LEFT OUTER JOIN `users` ON `users`.`id` = `posts`.`user_id` WHERE `posts`.`id` = 2
+api_1        |   ↳ app/controllers/posts_controller.rb:6:in `index'
+api_1        | Completed 200 OK in 4ms (Views: 0.4ms | ActiveRecord: 0.5ms | Allocations: 1190)
+```
+
+逆に、必要のないアソシエーションは切り落としてやることでアソシエーションループを回避する。
+
+```ruby
+  # GET /posts
+  def index
+    @posts = Post.eager_load(:user)
+    render json: @posts, except: :user
+  end
+```
 
 ## 残りの確認点
 
