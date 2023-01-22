@@ -9,6 +9,19 @@
 Rails 3 の標準 Gem。Rails 4 から標準から外れた。
 ActiveRecord っぽいインターフェースでモデルを操作して API 通信する。
 
+## 参考
+
+公式 Doc（Rails3.2）
+
+- https://api.rubyonrails.org/v3.2.1/classes/ActiveResource/Base.html
+
+個人ブログ
+
+- http://webos-goodies.jp/archives/how_to_use_activeresource_1.html
+- http://webos-goodies.jp/archives/how_to_use_activeresource_2.html
+
+いずれにしても古いドキュメントしか見当たらない。特にブログはアップデートされてなさそう。何ができるのかだけ参考にする。
+
 ## 構築
 
 API モードの Rails と NoDB のフロント Rails を用意して ActiveResource で通信させる。
@@ -202,7 +215,7 @@ class Post < ActiveRecord::Base
 end
 ```
 
-逆に、必要のないアソシエーションは切り落としてやることでアソシエーションループを回避する。
+逆に、必要のない多対一アソシエーションは切り落としてやることでアソシエーションループを回避する。
 切り落とさない場合、`user_id` から自動的に `user` を取得しにリクエストする
 
 ```ruby
@@ -237,15 +250,78 @@ User.where('age >=', 20)
 #=> ArgumentError: wrong number of arguments (2 for 0..1)
 ```
 
-## 懸念点
+## スキーマ定義
 
-ActiveResource モデルがカラム情報を一切持っておらず、JSON をパースして得た情報のみでアクセサメソッドを作っている。
-レスポンスで一件以上取得できていればよいが、0 件の場合、空の JSON が返ってくるので、カラム情報がなく、属性にアクセスすると NoMethodError が起きる。
-つまり、モデルを検索せずに表示する画面（/user/new とか） を開くとエラーが起きて表示できない。
-attr_accesor で getter/setter を作ってカラム名を持たせると、JSON をパースして得られた値にアクセスできず`nil`が取得される。
-あとは、timestamp 型が文字列になっているので使用する場合は、自前でその手の変換をかけないといけない。
+JSON から属性を生成しているので、通信を行わずに開く画面は、存在しない属性へのアクセス扱いとなり、NoMethodError が発生して表示できない。（`/posts/new`とか）  
+そのため、必要であれば自前でスキーマを定義することで問題を回避することができる。
 
-## 残りの確認点
+```ruby
+class Post < ActiveResource::Base
+  self.site = "http://api:3000"
 
-- [x] ActiveResource のアソシエーションを試す。
-- [x] ActiveResource は where でどのようなリクエストが発行されるか調べる。
+  belongs_to :user
+
+  schema do
+    attribute 'user_id', :integer
+    attribute "title", :string
+    attribute "text", :string
+    attribute "posted_at", :string
+    attribute "modified_at", :string
+  end
+end
+```
+
+ただし、型変換が貧弱。`fload`、`integer`、`string`しか使えず、他の方は`string`で保持される。  
+`datetime`などは手動で変換をかける必要がある。
+
+## カスタムアクション
+
+複雑な URL へのアクセスもサポートしている。以下、リファレンスの引用。  
+``
+
+```ruby
+# POST to the custom 'register' REST method, i.e. POST /people/new/register.json.
+Person.new(:name => 'Ryan').post(:register)
+
+# PUT an update by invoking the 'promote' REST method, i.e. PUT /people/1/promote.json?position=Manager.
+Person.find(1).put(:promote, :position => 'Manager')
+
+# GET all the positions available, i.e. GET /people/positions.json.
+Person.get(:positions)
+
+# DELETE to 'fire' a person, i.e. DELETE /people/1/fire.json.
+Person.find(1).delete(:fire)
+```
+
+## テスト
+
+ActiveRecord に API 通信部分をモックしてテストできる仕組みが備わっている。以下、個人ブログのエントリーより引用。
+
+```ruby
+require 'test_helper'
+require 'active_resource/http_mock'
+
+class BookmarkTest < ActiveSupport::TestCase
+  def setup
+    @record = {
+      :id      => 1,
+      :title   => 'WebOS Goodies',
+      :url     => 'http://webos-goodies.jp/',
+      :comment => 'Welcome!'
+    }.to_xml(:root => 'bookmarks')
+    @header = Bookmark.connection.__send__(:build_request_headers, {}, :get)
+    ActiveResource::HttpMock.respond_to do |mock|
+      mock.get '/bookmarks/1.xml', @header, @record
+    end
+  end
+
+  test "get bookmark" do
+    bookmark = Bookmark.find(1)
+    assert_equal 'WebOS Goodies',            bookmark.title
+    assert_equal 'http://webos-goodies.jp/', bookmark.url
+    assert_equal 'Welcome!',                 bookmark.comment
+    expected_request = ActiveResource::Request.new(:get, '/bookmarks/1.xml', nil, @header)
+    assert ActiveResource::HttpMock.requests.include?(expected_request)
+  end
+end
+```
