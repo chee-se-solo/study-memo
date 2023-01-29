@@ -30,9 +30,23 @@ config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 ### ルートアクションを定義
 
-```
+デバイス用のルーティングを別ファイルに定義。  
+`resources` より先に読み込まないと、`/users/***` が `/users/:id` に一致して `devise`のルーティングが効かなくなるので注意。  
+`/users/sign_in` を`root`にしたかったが、`devise_scope` 内で定義しても `devise_mapping` でエラーになったので一旦諦め。
+
+[devise のルーティングについて](http://www.code-magagine.com/?p=13096)
+
+```ruby
 config/routes.tb
-root to: "home#index"
+  draw :devise
+  resources :users
+  root to: "home#index"
+```
+
+```ruby
+Rails.application.routes.draw do
+  devise_for :users, module: 'devise/users'
+end
 ```
 
 ### ビューにメッセージを追加
@@ -47,32 +61,34 @@ app/views/layouts/application.html.erb.
 
 ### devise ビューを生成
 
+後に admin を作ることを想定して、devise/users 名前空間を作る
+
 ```shell
-bin/ralis g devise:views
+bin/rails g devise:views devise/users
       invoke  Devise::Generators::SharedViewsGenerator
-      create    app/views/devise/shared
-      create    app/views/devise/shared/_error_messages.html.erb
-      create    app/views/devise/shared/_links.html.erb
+      create    app/views/devise/users/shared
+      create    app/views/devise/users/shared/_error_messages.html.erb
+      create    app/views/devise/users/shared/_links.html.erb
       invoke  form_for
-      create    app/views/devise/confirmations
-      create    app/views/devise/confirmations/new.html.erb
-      create    app/views/devise/passwords
-      create    app/views/devise/passwords/edit.html.erb
-      create    app/views/devise/passwords/new.html.erb
-      create    app/views/devise/registrations
-      create    app/views/devise/registrations/edit.html.erb
-      create    app/views/devise/registrations/new.html.erb
-      create    app/views/devise/sessions
-      create    app/views/devise/sessions/new.html.erb
-      create    app/views/devise/unlocks
-      create    app/views/devise/unlocks/new.html.erb
+      create    app/views/devise/users/confirmations
+      create    app/views/devise/users/confirmations/new.html.erb
+      create    app/views/devise/users/passwords
+      create    app/views/devise/users/passwords/edit.html.erb
+      create    app/views/devise/users/passwords/new.html.erb
+      create    app/views/devise/users/registrations
+      create    app/views/devise/users/registrations/edit.html.erb
+      create    app/views/devise/users/registrations/new.html.erb
+      create    app/views/devise/users/sessions
+      create    app/views/devise/users/sessions/new.html.erb
+      create    app/views/devise/users/unlocks
+      create    app/views/devise/users/unlocks/new.html.erb
       invoke  erb
-      create    app/views/devise/mailer
-      create    app/views/devise/mailer/confirmation_instructions.html.erb
-      create    app/views/devise/mailer/email_changed.html.erb
-      create    app/views/devise/mailer/password_change.html.erb
-      create    app/views/devise/mailer/reset_password_instructions.html.erb
-      create    app/views/devise/mailer/unlock_instructions.html.erb
+      create    app/views/devise/users/mailer
+      create    app/views/devise/users/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/users/mailer/email_changed.html.erb
+      create    app/views/devise/users/mailer/password_change.html.erb
+      create    app/views/devise/users/mailer/reset_password_instructions.html.erb
+      create    app/views/devise/users/mailer/unlock_instructions.html.erb
 ```
 
 ### devise model 作成
@@ -138,7 +154,31 @@ end
 
 ### devise controller 設定
 
-wip
+bin/rails g devise:controller devise/users
+
+```shell
+bin/rails g devise:controllers devise/users
+      create  app/controllers/devise/users/confirmations_controller.rb
+      create  app/controllers/devise/users/passwords_controller.rb
+      create  app/controllers/devise/users/registrations_controller.rb
+      create  app/controllers/devise/users/sessions_controller.rb
+      create  app/controllers/devise/users/unlocks_controller.rb
+      create  app/controllers/devise/users/omniauth_callbacks_controller.rb
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  Ensure you have overridden routes for generated controllers in your routes.rb.
+  For example:
+
+    Rails.application.routes.draw do
+      devise_for :users, controllers: {
+        sessions: 'users/sessions'
+      }
+    end
+
+===============================================================================
+```
 
 ## SNS 連携認証 設定
 
