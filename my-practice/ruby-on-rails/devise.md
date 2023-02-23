@@ -10,6 +10,9 @@ https://qiita.com/cigalecigales/items/16ce0a9a7e79b9c3974e
 
 https://nllllll.com/ruby-on-rails/rails-devise/
 
+カスタマイズする上では公式 wiki とソースリーディングが一番頼りになった  
+https://github.com/heartcombo/devise/wiki
+
 ## devise インストール
 
 ```shell
@@ -189,8 +192,6 @@ wip
 wip
 
 ### 管理者権限チェック ＆ ユーザーログインチェック
-
-wip
 
 # 確認すること
 
